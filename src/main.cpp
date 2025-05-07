@@ -10,6 +10,9 @@ by Jeffery Myers is marked with CC0 1.0. To view a copy of this license, visit h
 #include "raylib.h"
 
 #include "resource_dir.h"	// utility header for SearchAndSetResourceDir
+#include "TrigonometryScene.h"
+#include "VectorScene.h"
+#include "PolarScene.h"
 
 int main ()
 {
@@ -25,35 +28,16 @@ int main ()
 	// Load a texture from the resources directory
 	Texture wabbit = LoadTexture("wabbit_alpha.png");
 	
-	Camera2D camera;
-	camera.offset = Vector2{ 1280/2, 720/2 };
-	camera.target = Vector2{ 0,0 };
-	camera.rotation = 0.0f;
-	camera.zoom = 1.0f;
+	Scene* scene = new PolarScene("Vector", 1280, 720);
 
+	scene->Initialize();
 	// game loop
 	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
 	{
-		// drawing
-		BeginDrawing();
-
-		BeginMode2D(camera);	// start drawing in 2D mode
-
-		// Setup the back buffer for drawing (clear color and depth buffers)
-		ClearBackground(BLACK);
-
-		// draw some text using the default font
-		DrawText("Hello Raylib", 200,200,20,WHITE);
-
-		// draw our texture to the screen
-		DrawTexture(wabbit, 0, 0, WHITE);
-		
-		//The V is for Vector where it takes a vector2 as an argument
-		DrawCircleV(GetMousePosition(), 100, RED);
-
-		// end the frame and get ready for the next one  (display frame, poll input, etc...)
-		EndDrawing();
-		EndMode2D(); 	// end 2D mode
+		scene->Update();
+		scene->BeginDraw();
+		scene->Draw();
+		scene->EndDraw();
 	}
 
 	// cleanup
