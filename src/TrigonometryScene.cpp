@@ -87,3 +87,7 @@ void TrigonometryScene::Draw()
 void TrigonometryScene::DrawGUI()
 {
 }
+
+void TrigonometryScene::FixedUpdate()
+{
+}

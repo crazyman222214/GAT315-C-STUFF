@@ -23,11 +23,12 @@ void PolarScene::Draw()
 
 	//DrawGrid(10, 5, WHITE);
 
-	ArchimedianSpiral(0.25f, 0.5f);
-	//Cardioid(1);
-	//Limacon(0.5f, 1);
-	//RoseCurve(1, 5);
-	//Logarithmic(0.5f, 0.1f);
+	//ArchimedianSpiral(0.25f, 0.4f);
+	//Cardioid(2);
+	//Limacon(2, 3);
+	//RoseCurve(4, 5);
+
+	Logarithmic(1, 0.1f);
 	m_camera->EndMode();
 }
 
@@ -54,7 +55,9 @@ void PolarScene::ArchimedianSpiral(float a, float b)
 		float x = cosf(theta) * r;
 		float y = sinf(theta) * r;
 
-		Color color = Color{ (unsigned char)((x + 10) * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
+		if (i == 0) prev = { x, y };
+
+		Color color = Color{ (unsigned char)(x * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
 
 
 		DrawLine(prev, { x, y }, 5, color);
@@ -81,7 +84,9 @@ void PolarScene::Cardioid(float a)
 		float x = cosf(theta) * r;
 		float y = sinf(theta) * r;
 			
-		Color color = Color{ (unsigned char)((x + 10) * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
+		if (i == 0) prev = { x, y };
+
+		Color color = Color{ (unsigned char)(x  * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
 
 
 
@@ -110,7 +115,7 @@ void PolarScene::Limacon(float a, float b)
 
 		if (i == 0) prev = { x, y };
 
-		Color color = Color{ (unsigned char)((x + 10) * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
+		Color color = Color{ (unsigned char)(x * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
 
 
 		DrawLine(prev, { x, y }, 5, color);
@@ -138,7 +143,7 @@ void PolarScene::RoseCurve(float a, float k)
 
 		if (i == 0) prev = { x, y };
 
-		Color color = Color{ (unsigned char)((x + 10) * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
+		Color color = Color{ (unsigned char)(x * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
 
 		DrawLine(prev, { x, y }, 5, color);
 		prev = { x, y };
@@ -167,10 +172,14 @@ void PolarScene::Logarithmic(float a, float k)
 
 		if (i == 0) prev = { x, y };
 
-		Color color = Color{ (unsigned char)((x + 10) * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
+		Color color = Color{ (unsigned char)(x * 5), (unsigned char)((x + 10) * 10), (unsigned char)((x + 10) * 20), 255 };
 
 		DrawLine(prev, { x, y }, 5, color);
 		prev = { x, y };
 	}
 
+}
+
+void PolarScene::FixedUpdate()
+{
 }

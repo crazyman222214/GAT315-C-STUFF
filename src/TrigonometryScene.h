@@ -19,4 +19,8 @@ public:
 
 private:
 
+
+	// Inherited via Scene
+	void FixedUpdate() override;
+
 };

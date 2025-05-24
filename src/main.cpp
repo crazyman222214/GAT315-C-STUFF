@@ -12,6 +12,7 @@ by Jeffery Myers is marked with CC0 1.0. To view a copy of this license, visit h
 #include "resource_dir.h"	// utility header for SearchAndSetResourceDir
 #include "TrigonometryScene.h"
 #include "VectorScene.h"
+#include "SpringScene.h"
 #include "PolarScene.h"
 
 int main ()
@@ -28,15 +29,26 @@ int main ()
 	// Load a texture from the resources directory
 	Texture wabbit = LoadTexture("wabbit_alpha.png");
 	
-	Scene* scene = new PolarScene("Vector", 1280, 720);
+	Scene* scene = new SpringScene("Vector", 1280, 720);
 
 	scene->Initialize();
+
+	float timeAccumlator = 0.0f;
 	// game loop
 	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
 	{
 		scene->Update();
+		timeAccumlator += std::min(GetFrameTime(), 0.5f);
+
+		while (timeAccumlator >= Scene::fixedTimeStep)
+		{
+			scene->FixedUpdate();
+			timeAccumlator -= Scene::fixedTimeStep;
+		}
+		scene->FixedUpdate();
 		scene->BeginDraw();
 		scene->Draw();
+		scene->DrawGUI();
 		scene->EndDraw();
 	}
 
