@@ -13,6 +13,13 @@ public:
 		Kinematic,
 		Static
 	};
+
+	enum class ForceMode
+	{
+		Force,
+		Impulse,
+		Velocity
+	};
 public:
 	Body() = default;
 
@@ -38,7 +45,7 @@ public:
 
 	void Draw(const Scene& scene);
 
-	void ApplyForce(const Vector2& force);
+	void ApplyForce(const Vector2& force, ForceMode forceMode = ForceMode::Force);
 
 	void ClearForce() { force = { 0, 0 }; }
 public:
@@ -54,6 +61,7 @@ public:
 	float inverseMass = 1;
 
 	float gravityScale = 1;
+	float restitution = 0.5f;
 
 	Color color = WHITE;
 

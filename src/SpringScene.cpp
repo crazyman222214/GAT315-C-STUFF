@@ -45,6 +45,8 @@ void SpringScene::Update()
 
 			body->damping = GUI::dampingValue;
 			body->gravityScale = GUI::gravityScaleValue;
+
+			body->restitution = GUI::restitutionValue;
 		}
 
 		if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
@@ -55,12 +57,23 @@ void SpringScene::Update()
 
 		if (m_selected)
 		{
-			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT) && IsKeyDown(KEY_LEFT_CONTROL))
+			{
+				if (m_selected->type == Body::Type::Dynamic)
+				{
+					Vector2 position = m_camera->ScreenToWorld(GetMousePosition());
+					Spring::ApplyForce(position, *m_selected, 0.2f, 15.0f);
+				}
+				
+			}
+
+			else if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 			{
 				Vector2 position = m_camera->ScreenToWorld(GetMousePosition());
 				m_connect = GUI::GetBodyIntersect(position, m_world->GetBodies(), *m_camera);
 			}
-			else {
+			else 
+			{
 				if (m_selected && m_connect)
 				{
 					float distance = Vector2Distance(m_selected->position, m_connect->position);
@@ -81,8 +94,6 @@ void SpringScene::Update()
 		{
 			body->position.y = -5;
 			body->velocity.y *= -body->damping;
-
-			//TODO: Clamp to left/right
 		}
 
 

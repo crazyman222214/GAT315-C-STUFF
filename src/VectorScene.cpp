@@ -27,30 +27,33 @@ void VectorScene::Update()
 	float theta = randomf(0, 360);
 
 
-	if (!GUI::mouseOverGUI && IsMouseButtonPressed(0))
+	if (!GUI::mouseOverGUI)
 	{
-		Vector2 position = m_camera->ScreenToWorld(GetMousePosition());
-		//Body::Type type = bodyTypeDropdow
-
-		for (int i = 0; i < 100; i++)
+		if (IsMouseButtonPressed(0) || (IsMouseButtonDown(0) && IsKeyDown(KEY_LEFT_CONTROL)))
 		{
-			Body* body = m_world->CreateBody(position, 0.25f, ColorFromHSV(randomf(360), 1, 1));
+			Vector2 position = m_camera->ScreenToWorld(GetMousePosition());
+			//Body::Type type = bodyTypeDropdow
 
-			float offset = randomf(-1, 1);
+			for (int i = 0; i < 100; i++)
+			{
+				Body* body = m_world->CreateBody(position, 0.25f, ColorFromHSV(randomf(360), 1, 1));
 
-			float x = cos(theta);
-			float y = sin(theta);
+				float offset = randomf(-1, 1);
 
-			body->damping = GUI::dampingValue;
-			body->mass = GUI::massValue;
-			body->size = GUI::sizeValue;
-			body->gravityScale = GUI::gravityScaleValue;
+				float x = cos(theta);
+				float y = sin(theta);
 
-			body->type = (Body::Type)(GUI::bodyTypeActive);
+				body->damping = GUI::dampingValue;
+				body->mass = GUI::massValue;
+				body->size = GUI::sizeValue;
+				body->gravityScale = GUI::gravityScaleValue;
+
+				body->type = (Body::Type)(GUI::bodyTypeActive);
 
 
-			//body->velocity = { x * randomf(1, 3), y * randomf(1, 3)};
-			body->velocity = { x * randomf(-4, 4), y * randomf(-3, 3)};
+				//body->velocity = { x * randomf(1, 3), y * randomf(1, 3)};
+				body->velocity = { x * randomf(-4, 4), y * randomf(-3, 3) };
+			}
 		}
 	}
 
@@ -61,8 +64,6 @@ void VectorScene::Update()
 		{
 			body->position.y = -5;
 			body->velocity.y *= -body->damping;
-
-			//TODO: Clamp to left/right
 		}
 
 
